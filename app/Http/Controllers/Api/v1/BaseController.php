@@ -20,6 +20,12 @@ class BaseController extends Controller
         $this->middleware('jwt');
     }
 
+    /**
+     * @param string|list|object $data
+     * @param string $message
+     * @param int $statusCode
+     * Handle return response success 
+     */
     protected function success($data, $message = '', $statusCode = Response::HTTP_OK)
     {
         return response()->json([
@@ -29,6 +35,11 @@ class BaseController extends Controller
         ], $statusCode);
     }
 
+     /**
+     * @param string|list|object $data
+     * @param int $statusCode
+     * Handle return response error 
+     */
     protected function error($data, $statusCode = Response::HTTP_UNPROCESSABLE_ENTITY)
     {
         return response()->json([
@@ -37,11 +48,19 @@ class BaseController extends Controller
         ], $statusCode);
     }
 
+    /**
+     * 
+     * Handle return list data
+     */
     public function index()
     {   
         return $this->success($this->model->all());
     }
 
+    /**
+     * @param Request $request
+     * Handle create model
+    */
     public function store(Request $request)
     {   
         try {
@@ -57,11 +76,20 @@ class BaseController extends Controller
         }
     }
 
+    /**
+     * @param String $id
+     * Handle show detail
+    */
     public function show($id)
     {
         return $this->success($this->model->findOrFail($id));
     }
 
+    /**
+     * @param String $id
+     * @param Request $request
+     * Handle update model
+    */
     public function update(Request $request, $id)
     {
         $model = $this->model->findOrFail($id);
@@ -69,6 +97,10 @@ class BaseController extends Controller
         return $model;
     }
 
+    /**
+     * @param String $id
+     * Handle delete 
+    */
     public function destroy($id)
     {
         $model = $this->model->findOrFail($id);
