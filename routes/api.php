@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Api\v1\DepartmentController;
+use App\Http\Controllers\Api\v1\GroupController;
+use App\Http\Controllers\Api\v1\UserGroupController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,10 +26,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     Route::post('logout', 'logout');
 //     Route::post('refresh', 'refresh');
 // });    
+
+
+Route::group(['prefix' => '/v1', 'as' => 'api.'], function () {
+    Route::resource('department', DepartmentController::class);
+    Route::resource('group', GroupController::class);
+    Route::resource('user-group', UserGroupController::class);
+});
+
+
+
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
-
 ], function ($router) {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
